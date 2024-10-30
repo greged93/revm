@@ -111,7 +111,7 @@ dependencies = [
 [[package]]
 name = "alloy-eips"
 version = "0.5.4"
-source = "git+https://github.com/scroll-tech/alloy.git?branch=v0.5.4#b2278c40b2693908e4e5108d65ade26e8d716765"
+source = "git+https://github.com/scroll-tech/alloy.git?branch=v0.5.4#7b410eb736d314d9f7c62cda63804259e9e55cda"
 dependencies = [
  "alloy-eip2930",
  "alloy-eip7702",
@@ -330,7 +330,7 @@ dependencies = [
 [[package]]
 name = "alloy-serde"
 version = "0.5.4"
-source = "git+https://github.com/scroll-tech/alloy.git?branch=v0.5.4#b2278c40b2693908e4e5108d65ade26e8d716765"
+source = "git+https://github.com/scroll-tech/alloy.git?branch=v0.5.4#7b410eb736d314d9f7c62cda63804259e9e55cda"
 dependencies = [
  "alloy-primitives",
  "serde",
@@ -4806,7 +4806,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]

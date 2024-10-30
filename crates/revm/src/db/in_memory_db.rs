@@ -56,7 +56,7 @@ impl<ExtDB> CacheDB<ExtDB> {
         contracts.insert(KECCAK_EMPTY, Bytecode::default());
         contracts.insert(B256::ZERO, Bytecode::default());
         Self {
-            accounts: DbMap::new(),
+            accounts: DbMap::default(),
             contracts,
             logs: Vec::default(),
             block_hashes: HashMap::default(),
