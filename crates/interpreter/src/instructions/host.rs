@@ -134,7 +134,7 @@ pub fn extcodecopy<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, 
         .set_data(memory_offset, code_offset, len, &code);
 }
 
-#[cfg(not(feature = "scroll"))]
+#[cfg(any(not(feature = "scroll"), feature = "optimism"))]
 pub fn blockhash<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host: &mut H) {
     gas!(interpreter, gas::BLOCKHASH);
     pop_top!(interpreter, number);
@@ -147,7 +147,7 @@ pub fn blockhash<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, ho
     *number = U256::from_be_bytes(hash.0);
 }
 
-#[cfg(feature = "scroll")]
+#[cfg(all(feature = "scroll", not(feature = "optimism")))]
 pub fn blockhash<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host: &mut H) {
     use revm_primitives::BLOCK_HASH_HISTORY;
 
@@ -228,7 +228,8 @@ pub fn sstore<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host:
 /// Store value to transient storage
 pub fn tstore<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host: &mut H) {
     cfg_if::cfg_if! {
-        if #[cfg(feature = "scroll")] {
+        if #[cfg(all(feature = "scroll", not(feature = "optimism")))]
+        {
             check!(interpreter, CURIE);
         } else {
             check!(interpreter, CANCUN);
@@ -247,7 +248,8 @@ pub fn tstore<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host:
 /// Load value from transient storage
 pub fn tload<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter, host: &mut H) {
     cfg_if::cfg_if! {
-        if #[cfg(feature = "scroll")] {
+        if #[cfg(all(feature = "scroll", not(feature = "optimism")))]
+        {
             check!(interpreter, CURIE);
         } else {
             check!(interpreter, CANCUN);
@@ -298,7 +300,7 @@ pub fn selfdestruct<H: Host + ?Sized, SPEC: Spec>(interpreter: &mut Interpreter,
     require_non_staticcall!(interpreter);
     pop_address!(interpreter, target);
 
-    #[cfg(feature = "scroll")]
+    #[cfg(all(feature = "scroll", not(feature = "optimism")))]
     if SPEC::enabled(PRE_BERNOULLI) {
         interpreter.instruction_result = InstructionResult::NotActivated;
         return;
